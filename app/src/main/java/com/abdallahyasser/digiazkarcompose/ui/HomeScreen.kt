@@ -29,12 +29,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.abdallahyasser.digiazkarcompose.ui.theme.*
 
 
 @Preview(showBackground = true)
 @Composable
 fun HomeScreen() {
+    val viewModel = viewModel<HomeViewModel>()
+
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -157,6 +160,8 @@ fun HeaderSection() {
 
 @Composable
 fun PrayerMainCard() {
+    val viewModel = viewModel<HomeViewModel>()
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -165,91 +170,96 @@ fun PrayerMainCard() {
         colors = CardDefaults.cardColors(containerColor = SurfaceWhite),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .padding(20.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+        if(viewModel.prayerTimes.value.isEmpty()){
+            CircularProgressIndicator()
+        }
+        else{
+            Column(
+                modifier = Modifier
+                    .padding(20.dp)
             ) {
-                Column {
-                    Text(
-                        text = "12:30",
-                        style = MaterialTheme.typography.displayLarge,
-                        color = PrimaryGreen
-                    )
-                    Text(
-                        text = "بعد ساعة و 15 دقيقة",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = TextGray
-                    )
-                }
-
                 Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(horizontalAlignment = Alignment.End) {
+                    Column {
                         Text(
-                            text = "الصلاة القادمة",
+                            text = viewModel.getNextPrayer().prayerTime,
+                            style = MaterialTheme.typography.displayLarge,
+                            color = PrimaryGreen
+                        )
+                        Text(
+                            text = viewModel.getRemainingTimeToNextPrayer(),
                             style = MaterialTheme.typography.bodySmall,
                             color = TextGray
                         )
-                        Text(
-                            text = "صلاة الظهر",
-                            style = MaterialTheme.typography.headlineMedium,
-                            color = TextDark
-                        )
                     }
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .background(
-                                Brush.verticalGradient(listOf(PrimaryGreen, PrimaryGreenDark)),
-                                CircleShape
-                            ),
-                        contentAlignment = Alignment.Center
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(Icons.Default.Star, contentDescription = null, tint = Color.White)
+                        Column(horizontalAlignment = Alignment.End) {
+                            Text(
+                                text = "الصلاة القادمة",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = TextGray
+                            )
+                            Text(
+                                text = viewModel.getNextPrayer().prayerName,
+                                style = MaterialTheme.typography.headlineMedium,
+                                color = TextDark
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .background(
+                                    Brush.verticalGradient(listOf(PrimaryGreen, PrimaryGreenDark)),
+                                    CircleShape
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(Icons.Default.Star, contentDescription = null, tint = Color.White)
+                        }
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
-            // Progress Bar
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(6.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFFE8E6E1))
-            ) {
+                // Progress Bar
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.6f)
-                        .fillMaxHeight()
-                        .background(PrimaryGreen)
-                )
-            }
+                        .fillMaxWidth()
+                        .height(6.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFFE8E6E1))
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(viewModel.getTheProgress()/100f)
+                            .fillMaxHeight()
+                            .background(PrimaryGreen)
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
-            // Row of prayer times
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                PrayerTimeSmall("الفجر", "5:15", "🌅", Color(0xFFF3F4F6))
-                PrayerTimeSmall("الشروق", "6:45", "☀️", Color(0xFFFEF3C6))
-                PrayerTimeSmall("الظهر", "12:30", "☀️", Color(0xFFFFF7ED), isActive = true)
-                PrayerTimeSmall("العصر", "3:45", "🌤️", Color(0xFFFFF7ED))
-                PrayerTimeSmall("المغرب", "6:15", "🌆", Color(0xFFFEF2F2))
-                PrayerTimeSmall("العشاء", "7:45", "🌙", Color(0xFFEEF2FF))
+                // Row of prayer times
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    PrayerTimeSmall("الفجر", viewModel.getPrayerTime("Fajr"), "🌅", Color(0xFFF3F4F6))
+                    PrayerTimeSmall("الشروق", viewModel.getPrayerTime("Sunrise"), "☀️", Color(0xFFFEF3C6))
+                    PrayerTimeSmall("الظهر", viewModel.getPrayerTime("Dhuhr"), "☀️", Color(0xFFFFF7ED), isActive = true)
+                    PrayerTimeSmall("العصر", viewModel.getPrayerTime("Asr"), "🌤️", Color(0xFFFFF7ED))
+                    PrayerTimeSmall("المغرب", viewModel.getPrayerTime("Maghrib"), "🌆", Color(0xFFFEF2F2))
+                    PrayerTimeSmall("العشاء", viewModel.getPrayerTime("Isha"), "🌙", Color(0xFFEEF2FF))
+                }
             }
         }
     }
@@ -311,7 +321,9 @@ fun FeatureGrid() {
 @Composable
 fun AyahCard() {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp),
         shape = RoundedCornerShape(20.dp),
         border = BorderStroke(2.dp, PrimaryGold),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
