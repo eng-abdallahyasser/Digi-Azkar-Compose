@@ -9,10 +9,5 @@ object HomeRoute
 @Serializable
 object SplashRoute
 
-
-
 @Serializable
-data class DetailsRoute(
-    val startDestination: String,
-    val endDestination: String
-)
+object OnboardingRoute

@@ -1,15 +1,17 @@
 package com.abdallahyasser.digiazkarcompose.ui
 
-import com.abdallahyasser.digiazkarcompose.R
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.navigation.NavController
+import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
@@ -22,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.abdallahyasser.digiazkarcompose.R
 import com.abdallahyasser.digiazkarcompose.ui.theme.CairoFamily
 import com.abdallahyasser.digiazkarcompose.ui.theme.PrimaryGold
 import com.abdallahyasser.digiazkarcompose.ui.theme.PrimaryGreen
@@ -29,7 +32,14 @@ import com.abdallahyasser.digiazkarcompose.ui.theme.PrimaryGreenDark
 
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(navController: NavController) {
+    LaunchedEffect(Unit) {
+        delay(1000) // 2 seconds delay
+        navController.navigate(OnboardingRoute) {
+            popUpTo(SplashRoute) { inclusive = true }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -68,28 +78,27 @@ fun SplashScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Icon Container with Corners
-            Box(
-                modifier = Modifier
-                    .size(96.dp)
-                    .background(Color.White.copy(alpha = 0.0f), shape = RoundedCornerShape(24.dp))
-                    .border(2.dp, PrimaryGold, RoundedCornerShape(24.dp))
-            ) {
-                // Gold Corners
-                GoldCorner(0f, 0f, CornerType.TopLeft)
-                GoldCorner(84f, 0f, CornerType.TopRight)
-                GoldCorner(0f, 84f, CornerType.BottomLeft)
-                GoldCorner(84f, 84f, CornerType.BottomRight)
-                // Icon
-                Icon(
-                    painter = painterResource(R.drawable.islamic_icon),
-                    contentDescription = "null",
-                    tint = PrimaryGold,
-                    modifier = Modifier
-                        .size(56.dp)
-                        .align(Alignment.Center)
-                )
-            }
+//            // Icon Container with Corners
+//            Box(
+//                modifier = Modifier
+//                    .size(96.dp)
+//                    .background(Color.White.copy(alpha = 0.0f), shape = RoundedCornerShape(24.dp))
+//                    .border(2.dp, PrimaryGold, RoundedCornerShape(24.dp))
+//            ) {
+//                // Gold Corners
+//                GoldCorner(0f, 0f, CornerType.TopLeft)
+//                GoldCorner(84f, 0f, CornerType.TopRight)
+//                GoldCorner(0f, 84f, CornerType.BottomLeft)
+//                GoldCorner(84f, 84f, CornerType.BottomRight)
+//                // Icon
+//                Image(
+//                    painter = painterResource(R.drawable.islamic_icon),
+//                    contentDescription = "null",
+//                    modifier = Modifier
+//                        .size(72.dp)
+//                        .align(Alignment.Center)
+//                )
+//            }
             Spacer(modifier = Modifier.height(40.dp))
             // Title
             Text(
@@ -120,7 +129,7 @@ fun SplashScreen() {
             )
             // Verse
             Text(
-                text = "﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾",
+                text = "﴾ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴿",
                 fontFamily = FontFamily.Serif, // Replace with AmiriFamily if available
                 fontWeight = FontWeight.Normal,
                 fontSize = 20.sp,

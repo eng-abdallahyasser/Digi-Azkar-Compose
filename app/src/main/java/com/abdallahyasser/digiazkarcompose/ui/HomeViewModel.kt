@@ -9,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.abdallahyasser.digi_azkar.data.prayer.PrayerRepoImpl
 import com.abdallahyasser.digi_azkar.domain.prayer.GetPrayerTimesUseCase
 import com.abdallahyasser.digiazkarcompose.domain.prayer.Prayer
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalTime
@@ -19,23 +21,30 @@ import java.util.concurrent.TimeUnit
 import kotlin.compareTo
 import kotlin.text.compareTo
 
-class HomeViewModel: ViewModel() {
+class HomeViewModel : ViewModel() {
+
+    private val _homeUiState = MutableStateFlow(
+        HomeUiState(
+            true, "", "", "", 0, emptyList(), true, "", "",
+        )
+    )
+    val homeUiState = _homeUiState.asStateFlow()
+
 
     val prayerTimes = mutableStateOf<List<Prayer>>(emptyList())
 
     init {
         viewModelScope.launch {
             try {
-                prayerTimes.value= GetPrayerTimesUseCase(PrayerRepoImpl()).invoke()
+                prayerTimes.value = GetPrayerTimesUseCase(PrayerRepoImpl()).invoke()
                 Log.d("HomeViewModel", "Prayer Times: ${prayerTimes.value.size}")
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 Log.d("HomeViewModel", "Error: ${e.message}")
             }
         }
     }
 
-    fun getPrayerTime(prayerName: String):String {
+    fun getPrayerTime(prayerName: String): String {
         prayerTimes.value.find { it.prayerName.equals(prayerName, ignoreCase = true) }?.let {
             return it.prayerTime
         }
@@ -49,7 +58,7 @@ class HomeViewModel: ViewModel() {
         val now = LocalTime.now().let { it.hour * 60 + it.minute }
 
         for (prayer in prayerTimes.value) {
-            val prayerTimeInMinutes=prayer.getTimeAsMinutes()
+            val prayerTimeInMinutes = prayer.getTimeAsMinutes()
             if (prayerTimeInMinutes > now) {
                 return Prayer(prayer.mapNextPrayerName(), prayer.prayerTime)
             }
@@ -104,9 +113,9 @@ class HomeViewModel: ViewModel() {
         return h * 60 + m
     }
 
-    fun Prayer.mapNextPrayerName(): String{
-        val name=this.prayerName
-        return when{
+    fun Prayer.mapNextPrayerName(): String {
+        val name = this.prayerName
+        return when {
             name == "Fajr" -> "الفجر"
             name == "Sunrise" -> "الشروق"
             name == "Dhuhr" -> "الظهر"
@@ -123,16 +132,16 @@ class HomeViewModel: ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getTheProgress():Int{
+    fun getTheProgress(): Int {
         val currentTime = LocalTime.now().let { it.hour * 60 + it.minute }
         val nextPrayer = prayerTimes.value.first { it.getTimeAsMinutes() >= currentTime }
         val nextPrayerIndex = prayerTimes.value.indexOf(nextPrayer)
-        val previousPrayerIndex = nextPrayerIndex-1
+        val previousPrayerIndex = nextPrayerIndex - 1
         val nextPrayerTimeAsMinutes = nextPrayer.getTimeAsMinutes()
 
         if (previousPrayerIndex >= 0) {
             val previousPrayerTime = prayerTimes.value[previousPrayerIndex].getTimeAsMinutes()
-            val totalTimeBetweenPrayers= nextPrayerTimeAsMinutes - previousPrayerTime
+            val totalTimeBetweenPrayers = nextPrayerTimeAsMinutes - previousPrayerTime
 
             val progress = (currentTime - previousPrayerTime) * 100 / totalTimeBetweenPrayers
             Log.d("HomeViewModel", "lastPrayerTime: $previousPrayerTime")
@@ -140,8 +149,7 @@ class HomeViewModel: ViewModel() {
             Log.d("HomeViewModel", "totalTimeBetweenPrayers: $totalTimeBetweenPrayers")
             Log.d("HomeViewModel", "previousPrayerIndex: $previousPrayerIndex")
             return progress
-        }
-        else{
+        } else {
 
             val progress = (currentTime) * 100 / nextPrayerTimeAsMinutes
             Log.d("HomeViewModel", "currentTime: $currentTime")

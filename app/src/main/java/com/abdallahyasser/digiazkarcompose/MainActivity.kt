@@ -10,6 +10,8 @@ import com.abdallahyasser.digiazkarcompose.ui.HomeRoute
 import com.abdallahyasser.digiazkarcompose.ui.HomeScreen
 import com.abdallahyasser.digiazkarcompose.ui.SplashRoute
 import com.abdallahyasser.digiazkarcompose.ui.SplashScreen
+import com.abdallahyasser.digiazkarcompose.ui.OnboardingRoute
+import com.abdallahyasser.digiazkarcompose.ui.OnboardingScreen
 import com.abdallahyasser.digiazkarcompose.ui.theme.DigiAzkarComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +28,14 @@ class MainActivity : ComponentActivity() {
                         HomeScreen()
                     }
                     composable<SplashRoute>{
-                        SplashScreen()
+                        SplashScreen(navController)
+                    }
+                    composable<OnboardingRoute>{
+                        OnboardingScreen{
+                            navController.navigate(HomeRoute){
+                                popUpTo(OnboardingRoute) { inclusive = true }
+                            }
+                        }
                     }
                 }
 
