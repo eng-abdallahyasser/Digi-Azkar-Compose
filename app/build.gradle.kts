@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -62,19 +64,22 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx.v270)
     // ViewModel for Compose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 // Optional: Lifecycle utilities for Compose (collectAsStateWithLifecycle)
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+    implementation(libs.androidx.lifecycle.runtime.compose)
 // Navigation Compose (if you need ViewModel scoped to a NavGraph)
     implementation(libs.androidx.navigation)
     // Retrofit core
-    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation(libs.retrofit)
 
-    implementation("com.squareup.retrofit2:converter-moshi:3.0.0")
+    implementation(libs.converter.moshi)
 
-    implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
+    implementation(libs.moshi.kotlin)
 
-    implementation ("org.threeten:threetenbp:1.6.9:no-tzdb")
+    implementation (libs.threetenbp)
+
+    implementation(libs.hilt.android)
+    ksp(libs.dagger.hilt.android.compiler)
 
 
     testImplementation(libs.junit)
