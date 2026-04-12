@@ -1,4 +1,4 @@
-package com.abdallahyasser.digiazkarcompose.ui
+package com.abdallahyasser.digiazkarcompose.ui.navigation
 
 import kotlinx.serialization.Serializable
 

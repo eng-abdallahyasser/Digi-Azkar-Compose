@@ -1,6 +1,6 @@
-package com.abdallahyasser.digiazkarcompose.ui
+package com.abdallahyasser.digiazkarcompose.ui.navigation
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -17,14 +17,12 @@ import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.abdallahyasser.digiazkarcompose.R
 import com.abdallahyasser.digiazkarcompose.ui.theme.CairoFamily
 import com.abdallahyasser.digiazkarcompose.ui.theme.PrimaryGold
 import com.abdallahyasser.digiazkarcompose.ui.theme.PrimaryGreen
@@ -183,11 +181,11 @@ fun GoldCorner(x: Float, y: Float, type: CornerType) {
                 when (type) {
                     CornerType.TopLeft -> Modifier
                         .border(
-                            border = androidx.compose.foundation.BorderStroke(2.dp, PrimaryGold),
+                            border = BorderStroke(2.dp, PrimaryGold),
                             shape = RoundedCornerShape(topStart = 0.dp)
                         )
                         .border(
-                            border = androidx.compose.foundation.BorderStroke(
+                            border = BorderStroke(
                                 0.dp,
                                 Color.Transparent
                             ),
@@ -199,17 +197,17 @@ fun GoldCorner(x: Float, y: Float, type: CornerType) {
                         )
 
                     CornerType.TopRight -> Modifier.border(
-                        border = androidx.compose.foundation.BorderStroke(2.dp, PrimaryGold),
+                        border = BorderStroke(2.dp, PrimaryGold),
                         shape = RoundedCornerShape(topEnd = 0.dp)
                     )
 
                     CornerType.BottomLeft -> Modifier.border(
-                        border = androidx.compose.foundation.BorderStroke(2.dp, PrimaryGold),
+                        border = BorderStroke(2.dp, PrimaryGold),
                         shape = RoundedCornerShape(bottomStart = 0.dp)
                     )
 
                     CornerType.BottomRight -> Modifier.border(
-                        border = androidx.compose.foundation.BorderStroke(2.dp, PrimaryGold),
+                        border = BorderStroke(2.dp, PrimaryGold),
                         shape = RoundedCornerShape(bottomEnd = 0.dp)
                     )
                 }

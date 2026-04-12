@@ -6,14 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.abdallahyasser.digiazkarcompose.ui.HomeRoute
-import com.abdallahyasser.digiazkarcompose.ui.HomeScreen
-import com.abdallahyasser.digiazkarcompose.ui.SplashRoute
-import com.abdallahyasser.digiazkarcompose.ui.SplashScreen
-import com.abdallahyasser.digiazkarcompose.ui.OnboardingRoute
-import com.abdallahyasser.digiazkarcompose.ui.OnboardingScreen
+import com.abdallahyasser.digiazkarcompose.ui.navigation.HomeRoute
+import com.abdallahyasser.digiazkarcompose.ui.home.HomeScreen
+import com.abdallahyasser.digiazkarcompose.ui.navigation.SplashRoute
+import com.abdallahyasser.digiazkarcompose.ui.navigation.SplashScreen
+import com.abdallahyasser.digiazkarcompose.ui.navigation.OnboardingRoute
+import com.abdallahyasser.digiazkarcompose.ui.navigation.OnboardingScreen
 import com.abdallahyasser.digiazkarcompose.ui.theme.DigiAzkarComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

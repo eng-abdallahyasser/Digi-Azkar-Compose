@@ -5,8 +5,9 @@ import com.abdallahyasser.digi_azkar.data.prayer.remote.api.PrayerTimesApi
 import com.abdallahyasser.digi_azkar.data.prayer.remote.toDomain
 import com.abdallahyasser.digiazkarcompose.domain.prayer.Prayer
 import com.abdallahyasser.digiazkarcompose.domain.prayer.PrayerRepoInterface
+import javax.inject.Inject
 
-class PrayerRepoImpl: PrayerRepoInterface {
+class PrayerRepoImpl @Inject constructor(): PrayerRepoInterface {
     private val prayerTimesApi = PrayerRetrofitClient.createService(PrayerTimesApi::class.java)
 
     override suspend fun getPrayerTimes(city: String, country: String): List<Prayer> {

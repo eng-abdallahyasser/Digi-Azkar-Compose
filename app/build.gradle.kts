@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.abdallahyasser.digiazkarcompose"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -79,7 +79,9 @@ dependencies {
     implementation (libs.threetenbp)
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.dagger.hilt.android.compiler)
+
 
 
     testImplementation(libs.junit)

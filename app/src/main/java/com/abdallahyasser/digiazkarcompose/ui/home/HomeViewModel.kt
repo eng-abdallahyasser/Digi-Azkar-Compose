@@ -1,4 +1,4 @@
-package com.abdallahyasser.digiazkarcompose.ui
+package com.abdallahyasser.digiazkarcompose.ui.home
 
 import android.os.Build
 import android.util.Log
@@ -9,19 +9,19 @@ import androidx.lifecycle.viewModelScope
 import com.abdallahyasser.digi_azkar.data.prayer.PrayerRepoImpl
 import com.abdallahyasser.digi_azkar.domain.prayer.GetPrayerTimesUseCase
 import com.abdallahyasser.digiazkarcompose.domain.prayer.Prayer
+import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
-import kotlin.compareTo
-import kotlin.text.compareTo
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(val getPrayerTimesUseCase:GetPrayerTimesUseCase) : ViewModel() {
 
     private val _homeUiState = MutableStateFlow(
         HomeUiState(
@@ -36,7 +36,7 @@ class HomeViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             try {
-                prayerTimes.value = GetPrayerTimesUseCase(PrayerRepoImpl()).invoke()
+                prayerTimes.value = getPrayerTimesUseCase.invoke()
                 Log.d("HomeViewModel", "Prayer Times: ${prayerTimes.value.size}")
             } catch (e: Exception) {
                 Log.d("HomeViewModel", "Error: ${e.message}")

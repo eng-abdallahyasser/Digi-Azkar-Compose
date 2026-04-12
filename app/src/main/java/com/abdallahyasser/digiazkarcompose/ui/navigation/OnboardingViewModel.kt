@@ -1,4 +1,4 @@
-package com.abdallahyasser.digiazkarcompose.ui
+package com.abdallahyasser.digiazkarcompose.ui.navigation
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

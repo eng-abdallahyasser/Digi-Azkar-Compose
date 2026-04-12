@@ -1,4 +1,4 @@
-package com.abdallahyasser.digiazkarcompose.ui
+package com.abdallahyasser.digiazkarcompose.ui.home
 
 import com.abdallahyasser.digiazkarcompose.domain.prayer.Prayer
 

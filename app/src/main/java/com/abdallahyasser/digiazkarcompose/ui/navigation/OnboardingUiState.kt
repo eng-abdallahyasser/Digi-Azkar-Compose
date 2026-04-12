@@ -1,4 +1,4 @@
-package com.abdallahyasser.digiazkarcompose.ui
+package com.abdallahyasser.digiazkarcompose.ui.navigation
 
 data class OnboardingUiState(val page: Int = 0,val pageTitle: String,val pageDescription: String )
 
